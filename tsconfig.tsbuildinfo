@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/Battle.tsx","./src/BattleCreature3D.tsx","./src/CreatureSprite.tsx","./src/ModelViewer.tsx","./src/main.tsx","./src/game/GameEngine.ts","./src/game/Scene3D.ts","./src/game/creatures.ts","./src/game/maps.ts","./src/game/save.ts"],"version":"5.9.3"}

@@ -1,0 +1,536 @@
+
+export type Element =
+| "Fire" | "Water" | "Grass" | "Electric" | "Earth"
+| "Ice" | "Wind" | "Psychic" | "Bug" | "Dark"
+| "Ground" | "Metal" | "Fairy" | "Poison" | "Dragon";
+
+export type SkillEffect =
+| "damage" | "heal" | "drain" | "burn"
+| "poison" | "stun" | "shield";
+
+export type Skill = {
+name: string;
+power: number;
+element: Element;
+description: string;
+effect: SkillEffect;
+special?: boolean;
+};
+
+export type Creature = {
+id: string;
+name: string;
+element: Element;
+stage: number;
+evolvesTo?: string;
+hp: number;
+atk: number;
+def: number;
+speed: number;
+skills: Skill[];
+color: string;
+accent: string;
+description: string;
+};
+
+// =====================================================
+// 15 HỆ NGUYÊN TỐ
+// =====================================================
+
+export const ELEMENTS: Element[] = [
+"Fire", "Water", "Grass", "Electric", "Earth",
+"Ice", "Wind", "Psychic", "Bug", "Dark",
+"Ground", "Metal", "Fairy", "Poison", "Dragon"
+];
+
+export const ELEMENT_NAMES: Record<Element, string> = {
+Fire: "Lửa",
+Water: "Nước",
+Grass: "Cỏ",
+Electric: "Điện",
+Earth: "Đất",
+Ice: "Băng",
+Wind: "Gió",
+Psychic: "Tâm linh",
+Bug: "Côn trùng",
+Dark: "Bóng tối",
+Ground: "Mặt đất",
+Metal: "Kim loại",
+Fairy: "Tiên",
+Poison: "Độc",
+Dragon: "Rồng"
+};
+
+export const ELEMENT_COLORS: Record<Element, string> = {
+Fire: "#ef6947",
+Water: "#3d9edc",
+Grass: "#62ae5b",
+Electric: "#e8bd36",
+Earth: "#a78b70",
+Ice: "#79cce8",
+Wind: "#68c69a",
+Psychic: "#b879df",
+Bug: "#9bbd42",
+Dark: "#55536e",
+Ground: "#b58b5c",
+Metal: "#8c9aa8",
+Fairy: "#f07865",
+Poison: "#58b9d5",
+Dragon: "#b58bd9"
+};
+
+// =====================================================
+// HÀM TẠO KỸ NĂNG
+// =====================================================
+
+const move = (
+name: string,
+power: number,
+element: Element,
+description: string,
+effect: SkillEffect = "damage",
+special = false
+): Skill => ({
+name,
+power,
+element,
+description,
+effect,
+special
+});
+
+// =====================================================
+// 15 POKÉMON TỰ THIẾT KẾ
+// =====================================================
+
+export const CREATURES: Creature[] = [
+
+{
+  id: "flamara",
+  name: "Flamara",
+  element: "Fire",
+  stage: 1,
+  hp: 45,
+  atk: 52,
+  def: 40,
+  speed: 58,
+  color: "#ef6947",
+  accent: "#ffd27b",
+  description: "Cáo lửa nhỏ mang ngọn lửa xanh ở chóp đuôi.",
+  skills: [
+    move("Lửa Gầm", 18, "Fire", "Phun luồng lửa hình vòng cung.", "burn"),
+    move("Tấn Công Lửa", 22, "Fire", "Lao tới cùng vệt lửa."),
+    move("Cầu Lửa", 30, "Fire", "Nén lửa thành quả cầu phát nổ.", "burn", true),
+    move("Bùng Nổ", 42, "Fire", "Hóa thân thành cột lửa khổng lồ.", "damage", true)
+  ]
+},
+
+{
+  id: "aquarion",
+  name: "Aquarion",
+  element: "Water",
+  stage: 1,
+  hp: 50,
+  atk: 48,
+  def: 45,
+  speed: 55,
+  color: "#3d9edc",
+  accent: "#c6f4ff",
+  description: "Rái cá biển có vây pha lê và bong bóng chữa lành.",
+  skills: [
+    move("Phun Nước", 18, "Water", "Bắn tia nước áp lực."),
+    move("Thủy Đạn", 22, "Water", "Chuỗi đạn nước liên tiếp."),
+    move("Vòi Rồng", 32, "Water", "Triệu hồi vòi rồng cuốn đối thủ.", "damage", true),
+    move("Hồi Phục", 0, "Water", "Dòng nước tinh khiết hồi 35 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "leafy",
+  name: "Leafy",
+  element: "Grass",
+  stage: 1,
+  hp: 48,
+  atk: 47,
+  def: 52,
+  speed: 50,
+  color: "#62ae5b",
+  accent: "#d5f29a",
+  description: "Thỏ lá có đôi tai mọc mầm non và phấn hoa lấp lánh.",
+  skills: [
+    move("Tán Lá", 17, "Grass", "Phóng những chiếc lá sắc."),
+    move("Quang Hợp", 0, "Grass", "Hấp thụ ánh sáng hồi 28 HP.", "heal"),
+    move("Bẫy Cỏ", 24, "Grass", "Dây leo trồi lên trói chân.", "stun", true),
+    move("Bão Hạt", 34, "Grass", "Gọi mưa hạt giống phát sáng.", "damage", true)
+  ]
+},
+
+{
+  id: "voltix",
+  name: "Voltix",
+  element: "Electric",
+  stage: 1,
+  hp: 42,
+  atk: 59,
+  def: 38,
+  speed: 65,
+  color: "#e8bd36",
+  accent: "#fff4a0",
+  description: "Chồn tia chớp có đuôi hình tia sét.",
+  skills: [
+    move("Sét Đánh", 22, "Electric", "Một tia sét giáng xuống."),
+    move("Điện Giật", 18, "Electric", "Phóng điện làm tê liệt.", "stun"),
+    move("Tia Chớp", 34, "Electric", "Lướt nhanh thành vệt sáng.", "damage", true),
+    move("Tăng Tốc", 0, "Electric", "Tích điện tăng tốc và hồi 18 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "terran",
+  name: "Terran",
+  element: "Earth",
+  stage: 1,
+  hp: 60,
+  atk: 55,
+  def: 65,
+  speed: 40,
+  color: "#a78b70",
+  accent: "#e8d4b3",
+  description: "Tê tê đá cuộn mình trong lớp giáp khoáng thạch.",
+  skills: [
+    move("Đá Vụn", 18, "Earth", "Bắn loạt đá vụn."),
+    move("Giậm Xóc", 23, "Earth", "Dậm đất tạo chấn động."),
+    move("Bức Tường Đá", 0, "Earth", "Dựng giáp đá giảm sát thương.", "shield", true),
+    move("Cú Đập", 38, "Earth", "Nắm đấm đá giáng mạnh.", "damage", true)
+  ]
+},
+
+{
+  id: "frosty",
+  name: "Frosty",
+  element: "Ice",
+  stage: 1,
+  hp: 44,
+  atk: 56,
+  def: 45,
+  speed: 57,
+  color: "#79cce8",
+  accent: "#e1fbff",
+  description: "Cú tuyết nhỏ mang chiếc sừng băng trong veo.",
+  skills: [
+    move("Băng Giá", 19, "Ice", "Mảnh băng sắc bay tới."),
+    move("Cầu Băng", 24, "Ice", "Quả cầu băng nổ tung."),
+    move("Tuyết Lở", 36, "Ice", "Tuyết lở tràn qua đấu trường.", "stun", true),
+    move("Hơi Lạnh", 0, "Ice", "Sương lạnh hồi 24 HP.", "heal")
+  ]
+},
+
+{
+  id: "windrake",
+  name: "Windrake",
+  element: "Wind",
+  stage: 1,
+  hp: 46,
+  atk: 53,
+  def: 42,
+  speed: 68,
+  color: "#68c69a",
+  accent: "#d7fff0",
+  description: "Rồng gió non với đôi cánh lá mỏng.",
+  skills: [
+    move("Gió Thổi", 18, "Wind", "Lưỡi gió xoáy."),
+    move("Lốc Xoáy", 25, "Wind", "Vòng xoáy hất tung đối thủ."),
+    move("Bay Cao", 0, "Wind", "Bay vút né đòn và hồi 20 HP.", "shield", true),
+    move("Bão Tố", 37, "Wind", "Gọi cơn bão cắt xuyên đấu trường.", "damage", true)
+  ]
+},
+
+{
+  id: "mystic",
+  name: "Mystic",
+  element: "Psychic",
+  stage: 1,
+  hp: 40,
+  atk: 58,
+  def: 44,
+  speed: 62,
+  color: "#b879df",
+  accent: "#f2d8ff",
+  description: "Mèo tinh linh đọc được những dòng năng lượng.",
+  skills: [
+    move("Tâm Linh", 20, "Psychic", "Quả cầu tâm trí."),
+    move("Siêu Sóng", 24, "Psychic", "Sóng năng lượng vô hình."),
+    move("Tấn Công Tinh Thần", 34, "Psychic", "Ảo ảnh bùng nổ trong tâm trí.", "stun", true),
+    move("Thiền Định", 0, "Psychic", "Tĩnh tâm hồi 32 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "buggo",
+  name: "Buggo",
+  element: "Bug",
+  stage: 1,
+  hp: 46,
+  atk: 54,
+  def: 50,
+  speed: 58,
+  color: "#9bbd42",
+  accent: "#e8f5a4",
+  description: "Bọ cánh cứng bé xíu có chiếc lá làm khiên.",
+  skills: [
+    move("Cắn", 18, "Bug", "Cặp hàm sắc cắn mạnh."),
+    move("Rào Chắn", 0, "Bug", "Dựng khiên cánh cứng.", "shield"),
+    move("Bọ Cánh", 26, "Bug", "Đàn bọ ánh sáng lao tới."),
+    move("Tàng Phòng Thủ", 0, "Bug", "Kén bảo vệ và hồi 22 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "umbra",
+  name: "Umbra",
+  element: "Dark",
+  stage: 1,
+  hp: 52,
+  atk: 60,
+  def: 46,
+  speed: 66,
+  color: "#55536e",
+  accent: "#c3b9ed",
+  description: "Linh miêu bóng đêm với đôi mắt tím phát sáng.",
+  skills: [
+    move("Bóng Tối", 20, "Dark", "Lưỡi bóng tối quét ngang."),
+    move("Vuốt Đêm", 24, "Dark", "Móng vuốt đen xé gió."),
+    move("Hút Máu", 28, "Dark", "Hút sinh lực đối thủ.", "drain", true),
+    move("Ẩn Thân", 0, "Dark", "Tan vào bóng tối hồi 25 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "geo",
+  name: "Geo",
+  element: "Ground",
+  stage: 1,
+  hp: 55,
+  atk: 57,
+  def: 62,
+  speed: 45,
+  color: "#b58b5c",
+  accent: "#f0d5a8",
+  description: "Chuột chũi cát đào đường hầm dưới lòng đất.",
+  skills: [
+    move("Cát Bay", 18, "Ground", "Cát xoáy mù mịt."),
+    move("Đạp Đất", 24, "Ground", "Sóng địa tầng dội lên."),
+    move("Bão Cát", 34, "Ground", "Bão cát phủ kín sân đấu.", "damage", true),
+    move("Phòng Thủ", 0, "Ground", "Ẩn dưới đất để hồi 25 HP.", "shield")
+  ]
+},
+
+{
+  id: "marin",
+  name: "Marin",
+  element: "Poison",
+  stage: 1,
+  hp: 48,
+  atk: 51,
+  def: 49,
+  speed: 60,
+  color: "#58b9d5",
+  accent: "#c8f7ff",
+  description: "Sứa biển phát sáng với những xúc tu độc dịu màu.",
+  skills: [
+    move("Dòng Nước", 17, "Poison", "Dòng độc lỏng quấn lấy mục tiêu.", "poison"),
+    move("Bong Bóng", 21, "Poison", "Bong bóng độc phát nổ.", "poison"),
+    move("Lốc Biển", 32, "Poison", "Xoáy độc tím lan rộng.", "poison", true),
+    move("Giải Độc", 0, "Poison", "Tự thanh lọc và hồi 28 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "ironix",
+  name: "Ironix",
+  element: "Metal",
+  stage: 1,
+  hp: 58,
+  atk: 63,
+  def: 70,
+  speed: 42,
+  color: "#8c9aa8",
+  accent: "#e4edf5",
+  description: "Tê giác máy bọc thép với sừng hợp kim sáng bạc.",
+  skills: [
+    move("Thép Đập", 22, "Metal", "Cú húc bằng giáp thép."),
+    move("Kim Cương", 26, "Metal", "Mảnh tinh thể kim loại bắn ra."),
+    move("Ánh Sáng Thép", 0, "Metal", "Lớp giáp phản quang giảm sát thương.", "shield", true),
+    move("Pháo Năng Lượng", 39, "Metal", "Bắn đại pháo plasma.", "damage", true)
+  ]
+},
+
+{
+  id: "emberfay",
+  name: "Emberfay",
+  element: "Fairy",
+  stage: 1,
+  hp: 52,
+  atk: 61,
+  def: 48,
+  speed: 64,
+  color: "#f07865",
+  accent: "#ffe0cf",
+  description: "Phượng hoàng tiên nhỏ với lông vũ màu hoàng hôn.",
+  skills: [
+    move("Lửa Bừng", 19, "Fairy", "Lông vũ phép thuật bùng sáng."),
+    move("Phượng Hoàng", 25, "Fairy", "Đôi cánh ánh sáng quét qua."),
+    move("Vũ Nổ", 36, "Fairy", "Vũ điệu phép thuật phát nổ.", "damage", true),
+    move("Hồi Phục", 0, "Fairy", "Ánh tiên chữa lành 36 HP.", "heal", true)
+  ]
+},
+
+{
+  id: "lunara",
+  name: "Lunara",
+  element: "Dragon",
+  stage: 1,
+  hp: 50,
+  atk: 54,
+  def: 52,
+  speed: 62,
+  color: "#b58bd9",
+  accent: "#f3e0ff",
+  description: "Rồng trăng có sừng pha lê và đôi cánh ánh sao.",
+  skills: [
+    move("Hoa Mộng", 18, "Dragon", "Cánh hoa sao bay xoáy."),
+    move("Ánh Trăng", 24, "Dragon", "Tia trăng xuyên qua đối thủ."),
+    move("Long Hồn", 37, "Dragon", "Linh hồn rồng giáng thế.", "damage", true),
+    move("Ngủ Nguyệt", 0, "Dragon", "Ánh trăng hồi 30 HP.", "heal", true)
+  ]
+}
+];
+
+// =====================================================
+// POKÉMON KHỞI ĐẦU
+// =====================================================
+
+export const STARTER_ID = "flamara";
+
+// =====================================================
+// TRA CỨU POKÉMON
+// =====================================================
+
+export const getCreature = (id: string): Creature =>
+CREATURES.find(creature => creature.id === id) ?? CREATURES[0];
+
+export const getCreaturesByElement = (element: Element): Creature[] =>
+CREATURES.filter(creature => creature.element === element);
+
+export const getCreatureById = (id: string): Creature | undefined =>
+CREATURES.find(creature => creature.id === id);
+
+export const isElement = (value: string): value is Element =>
+ELEMENTS.includes(value as Element);
+
+// =====================================================
+// BẢNG TƯƠNG KHẮC HỆ
+// 2 = Gây sát thương gấp đôi
+// 0.5 = Gây sát thương một nửa
+// 1 = Sát thương bình thường
+// =====================================================
+
+const ADVANTAGES: Record<Element, Element[]> = {
+Fire: ["Grass", "Bug", "Ice", "Metal"],
+Water: ["Fire", "Earth", "Ground"],
+Grass: ["Water", "Earth", "Ground"],
+Electric: ["Water", "Wind"],
+Earth: ["Electric", "Fire"],
+Ice: ["Grass", "Wind", "Dragon"],
+Wind: ["Grass", "Bug", "Poison"],
+Psychic: ["Poison", "Bug"],
+Bug: ["Grass", "Psychic", "Dark"],
+Dark: ["Psychic", "Dragon"],
+Ground: ["Electric", "Fire", "Metal"],
+Metal: ["Ice", "Fairy", "Dragon"],
+Fairy: ["Dark", "Dragon", "Bug"],
+Poison: ["Grass", "Fairy"],
+Dragon: ["Wind", "Water", "Fire"]
+};
+
+const RESISTS: Record<Element, Element[]> = {
+Fire: ["Water", "Ground", "Dragon"],
+Water: ["Grass", "Electric", "Poison"],
+Grass: ["Fire", "Ice", "Bug"],
+Electric: ["Earth", "Ground", "Dragon"],
+Earth: ["Grass", "Water", "Ice"],
+Ice: ["Fire", "Metal"],
+Wind: ["Electric", "Ice"],
+Psychic: ["Bug", "Dark"],
+Bug: ["Fire", "Wind", "Metal"],
+Dark: ["Fairy", "Bug"],
+Ground: ["Water", "Grass", "Ice"],
+Metal: ["Fire", "Earth"],
+Fairy: ["Metal", "Poison"],
+Poison: ["Earth", "Psychic"],
+Dragon: ["Ice", "Fairy"]
+};
+
+// =====================================================
+// TÍNH SÁT THƯƠNG THEO HỆ
+// =====================================================
+
+export const effectiveness = (
+attack: Element,
+defend: Element
+): number => {
+if (ADVANTAGES[attack].includes(defend)) {
+  return 2;
+}
+
+if (RESISTS[attack].includes(defend)) {
+  return 0.5;
+}
+
+return 1;
+};
+
+// =====================================================
+// HÀM HỖ TRỢ CHIẾN ĐẤU
+// =====================================================
+
+export const getEffectivenessText = (
+attack: Element,
+defend: Element
+): string => {
+const multiplier = effectiveness(attack, defend);
+
+if (multiplier === 2) return "Siêu hiệu quả!";
+if (multiplier === 0.5) return "Không hiệu quả lắm...";
+return "Sát thương bình thường.";
+};
+
+export const calculateDamage = (
+attacker: Creature,
+defender: Creature,
+skill: Skill
+): number => {
+if (skill.power <= 0 || skill.effect === "heal" || skill.effect === "shield") {
+  return 0;
+}
+
+const typeMultiplier = effectiveness(skill.element, defender.element);
+const baseDamage =
+  skill.power + attacker.atk * 0.35 - defender.def * 0.2;
+
+return Math.max(
+  1,
+  Math.floor(baseDamage * typeMultiplier)
+);
+};
+
+// =====================================================
+// KIỂM TRA DỮ LIỆU
+// =====================================================
+
+export const getCreatureCount = (): number => CREATURES.length;
+
+export const getElementCount = (): number => ELEMENTS.length;
+
+export const getSkillCount = (): number =>
+CREATURES.reduce((total, creature) => total + creature.skills.length, 0);
